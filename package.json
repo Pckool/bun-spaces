@@ -1,0 +1,68 @@
+{
+	"name": "bun-spaces",
+	"version": "0.2.0",
+	"description": "A powerful CLI tool for managing Bun workspaces",
+	"keywords": ["bun", "workspaces", "monorepo", "cli", "workspace", "scripts"],
+	"homepage": "https://github.com/Pckool/bun-spaces#readme",
+	"main": "src/index.ts",
+	"exports": {
+		"default": "./dist/index.js",
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.js",
+		"node": "./dist/index.js"
+	},
+	"bin": {
+		"bun-spaces": "bin/cli.js"
+	},
+	"files": [
+		"bin",
+		"src",
+		"README.md",
+		"LICENSE"
+	],
+	"custom": {
+		"bunVersion": {
+			"build": "1.1.38",
+			"libraryConsumer": "^1.1.x"
+		}
+	},
+	"scripts": {
+		"cli": "NODE_ENV=production bun run bin/cli.js",
+		"cli:dev": "NODE_ENV=development bun run bin/cli.js",
+		"type-check": "tsc --noEmit",
+		"lint": "biome lint src/*",
+		"format": "biome format --write .",
+		"format-check": "biome check --write .",
+		"prepublishOnly": "bun run type-check && bun run lint && bun run format-check",
+		"test": "bun test",
+		"build": "bun build ./src/index.ts --outdir ./dist"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Pckool/bun-spaces.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Pckool/bun-spaces/issues"
+	},
+	"author": "Pckool",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/bun": "latest",
+		"@typescript-eslint/eslint-plugin": "^8.17.0",
+		"@typescript-eslint/parser": "^8.17.0",
+		"eslint": "^9.16.0",
+		"eslint-plugin-import": "^2.31.0",
+		"prettier": "^3.4.2",
+		"typescript-eslint": "^8.17.0"
+	},
+	"dependencies": {
+		"chalk": "4.1.2",
+		"commander": "^12.1.0",
+		"winston": "^3.10.0"
+	},
+	"peerDependencies": {
+		"typescript": "latest"
+	}
+}
