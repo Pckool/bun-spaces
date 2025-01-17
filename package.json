@@ -1,11 +1,20 @@
 {
 	"name": "bun-spaces",
-	"version": "0.2.0",
+	"version": "0.2.7",
 	"description": "A powerful CLI tool for managing Bun workspaces",
-	"keywords": ["bun", "workspaces", "monorepo", "cli", "workspace", "scripts"],
+	"keywords": [
+		"bun-spaces",
+		"bun",
+		"workspaces",
+		"monorepo",
+		"cli",
+		"workspace",
+		"scripts"
+	],
 	"homepage": "https://github.com/Pckool/bun-spaces#readme",
-	"main": "src/index.ts",
+	"main": "dist/index.js",
 	"exports": {
+		"bun": "./src/index.ts",
 		"default": "./dist/index.js",
 		"types": "./dist/index.d.ts",
 		"import": "./dist/index.js",
@@ -13,30 +22,34 @@
 		"node": "./dist/index.js"
 	},
 	"bin": {
-		"bun-spaces": "bin/cli.js"
+		"bun-spaces": "./dist/cli.js",
+		"bs": "./dist/cli.js"
 	},
 	"files": [
 		"bin",
 		"src",
+		"dist",
 		"README.md",
 		"LICENSE"
 	],
 	"custom": {
 		"bunVersion": {
-			"build": "1.1.38",
+			"build": "1.1.44",
 			"libraryConsumer": "^1.1.x"
 		}
 	},
 	"scripts": {
-		"cli": "NODE_ENV=production bun run bin/cli.js",
-		"cli:dev": "NODE_ENV=development bun run bin/cli.js",
+		"cli": "NODE_ENV=production bun run dist/cli.js",
+		"cli:dev": "NODE_ENV=development bun run dist/cli.js",
 		"type-check": "tsc --noEmit",
 		"lint": "biome lint src/*",
 		"format": "biome format --write .",
 		"format-check": "biome check --write .",
-		"prepublishOnly": "bun run type-check && bun run lint && bun run format-check",
+		"prepublishOnly": "bun run build && bun run type-check && bun run lint && bun run format-check",
 		"test": "bun test",
-		"build": "bun build ./src/index.ts --outdir ./dist"
+		"build": "bun build ./src/index.ts --outdir ./dist --target bun && bun build ./src/cli.ts --outfile ./dist/cli.js --target bun && tsc",
+		"version:bump": "bun run scripts/version_bump.ts",
+		"pub": "bun version:bump && bun publish"
 	},
 	"repository": {
 		"type": "git",
@@ -48,7 +61,7 @@
 	"author": "Pckool",
 	"license": "MIT",
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
+		"@biomejs/biome": "latest",
 		"@types/bun": "latest",
 		"@typescript-eslint/eslint-plugin": "^8.17.0",
 		"@typescript-eslint/parser": "^8.17.0",
